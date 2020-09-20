@@ -2,6 +2,7 @@
 'RCET0265
 'Fall 2020
 'Shuffle The Deck
+'https://github.com/CalvinAC/ShuffleTheDeck
 
 Option Strict On
 Option Explicit On
@@ -10,56 +11,56 @@ Option Explicit On
 Module ShuffleTheDeck
 
     Sub Main()
-        'CardsArray()
-        DisplayArray()
-
-
-    End Sub
-    Sub CardsArray()
-        Dim cardTable(13, 4) As String
-        Dim row As Integer
-        Dim column As Integer
-
-        cardTable(1, 2) = "Bob"
-        cardTable(1, 3) = "timmothy"
-        cardTable(1, 1) = "jameison"
-
-        For row = 1 To 13
-            For column = 0 To 4
-                Console.Write(cardTable(row, column) & vbTab)
-            Next
-            Console.WriteLine()
-        Next
-        Console.ReadLine()
-
-    End Sub
-
-    Sub DisplayArray()
         Dim row As Integer = 12
         Dim column As Integer = 3
-        Dim thisArray(row, column) As Double
+
+        Console.WriteLine("Press Enter to draw a card")
+        RandomCard()
+
+
+
+    End Sub
+
+
+
+    Sub RandomCard()
+        Dim row As Integer = 12
+        Dim column As Integer = 3
+        Dim randomRow As Integer
+        Dim randomColumn As Integer
+        Dim randomCard(row, column) As Boolean
         Dim formattedString As String
 
-        thisArray(0, 1) = 6
-        thisArray(1, 1) = 5
-        thisArray(0, 0) = 4
-        thisArray(0, 2) = 3
+        Randomize()
+        For i = 1 To 104
+            randomRow = CInt(Int((13 * Rnd())))
+            randomColumn = CInt(Int((4 * Rnd())))
 
+            If Not randomCard(randomRow, randomColumn) Then
+                randomCard(randomRow, randomColumn) = True
+            Else
+                Console.WriteLine($"Row {randomRow}, column {randomColumn}")
+            End If
+        Next
 
+        Console.WriteLine(randomCard)
+        Console.ReadLine()
 
+        For i = 0 To row
+            For j = 0 To column
+                formattedString = $" {i},{j}"
+                Console.Write(formattedString)
+                If randomCard(i, j) Then
+                    Console.WriteLine(" T ")
+                Else
+                    Console.WriteLine(" F ")
+                End If
 
-        For row = 0 To row - 1
-            For column = 0 To column - 1
-                formattedString = $"{row}, {column}"
-                Console.Write(formattedString.PadRight(8))
-
-                'Console.Write($"{row}, {column}")
-
-                'Console.Write(thisArray(row, column) & vbTab)
             Next
             Console.WriteLine()
         Next
-        Console.ReadLine()
-
+        Console.Read()
     End Sub
+
+
 End Module
