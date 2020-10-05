@@ -13,54 +13,85 @@ Module ShuffleTheDeck
     Sub Main()
         Dim row As Integer = 12
         Dim column As Integer = 3
-
-        Console.WriteLine("Press Enter to draw a card")
-        RandomCard()
-
-
-
-    End Sub
-
-
-
-    Sub RandomCard()
-        Dim row As Integer = 12
-        Dim column As Integer = 3
-        Dim randomRow As Integer
-        Dim randomColumn As Integer
         Dim randomCard(row, column) As Boolean
-        Dim formattedString As String
-
+        Dim randomColumn As Integer
+        Dim randomRow As Integer
+        Dim goodData As Boolean
+        Dim suite As String
+        Dim cardNumber As String
+        Dim cardValue As String
+        Dim cardsDealt As Integer
         Randomize()
-        For i = 1 To 104
-            randomRow = CInt(Int((13 * Rnd())))
-            randomColumn = CInt(Int((4 * Rnd())))
 
-            If Not randomCard(randomRow, randomColumn) Then
-                randomCard(randomRow, randomColumn) = True
-            Else
-                Console.WriteLine($"Row {randomRow}, column {randomColumn}")
-            End If
-        Next
 
-        Console.WriteLine(randomCard)
-        Console.ReadLine()
+        Console.WriteLine("Press Enter to draw a card, or Q to quit. ")
 
-        For i = 0 To row
-            For j = 0 To column
-                formattedString = $" {i},{j}"
-                Console.Write(formattedString)
-                If randomCard(i, j) Then
-                    Console.WriteLine(" T ")
-                Else
-                    Console.WriteLine(" F ")
+
+        Do
+            'Counts the amount of cards that have been dealt
+            cardsDealt += 1
+            Console.WriteLine(StrDup(4, vbTab) & "Cards Dealt: " & cardsDealt)
+            goodData = False
+
+            'Creates a randomized multidimensional array that wont repeat the same output value
+            Do Until goodData = True
+                randomColumn = CInt(Int((4 * Rnd())))
+                randomRow = CInt(Int((13 * Rnd())))
+
+                If Not randomCard(randomRow, randomColumn) = True Then
+                    randomCard(randomRow, randomColumn) = True
+                    goodData = True
+                ElseIf goodData = False Then
+
                 End If
+            Loop
 
-            Next
-            Console.WriteLine()
-        Next
-        Console.Read()
+            'Changes any card number that is 11,12,13,or 1 to its face value
+            cardNumber = CStr(randomRow + 1)
+            If cardNumber = "11" Then
+                cardValue = "Jack"
+            ElseIf cardNumber = "12" Then
+                cardValue = "Queen"
+            ElseIf cardNumber = "13" Then
+                cardValue = "King"
+            ElseIf cardNumber = "1" Then
+                cardValue = "Ace"
+            Else cardValue = cardNumber
+
+            End If
+
+            'Displays the cards quite in reference to the coloumn of the integer
+            If randomColumn = 0 Then
+                suite = "Hearts"
+            ElseIf randomColumn = 1 Then
+                suite = "Diamonds"
+            ElseIf randomColumn = 2 Then
+                suite = "Spades"
+            ElseIf randomColumn = 3 Then
+                suite = "Clubs"
+            End If
+
+            Console.WriteLine(cardValue & " Of " & suite)
+
+            'Reshuffles the deck
+            If cardsDealt = 52 Then
+                Console.WriteLine(StrDup(4, vbTab) & "Cards Shuffled")
+                For row = 0 To 12
+                    For column = 0 To 3
+                        randomCard(row, column) = False
+                    Next
+                    cardsDealt = 0
+                Next
+            Else
+            End If
+
+            'Exits the program when Q is selected
+            If Console.ReadKey().Key = ConsoleKey.Q Then
+                Exit Sub
+            End If
+
+        Loop
+
     End Sub
-
 
 End Module
